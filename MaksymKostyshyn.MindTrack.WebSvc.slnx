@@ -1,5 +1,8 @@
 <Solution>
-  <Folder Name="/0 - Solution Items/" />
+  <Folder Name="/0 - Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="README.md" />
+  </Folder>
   <Folder Name="/1 - Apps/">
     <Project Path="src/apps/MaksymKostyshyn.MindTrack.WebSvc/MaksymKostyshyn.MindTrack.WebSvc.csproj" />
   </Folder>
@@ -9,6 +12,7 @@
     <Project Path="src/shared/MaksymKostyshyn.MindTrack.Domain/MaksymKostyshyn.MindTrack.Domain.csproj" />
   </Folder>
   <Folder Name="/2 - Shared/Adapters/">
+    <Project Path="src/shared/MaksymKostyshyn.MindTrack.Data.Abstractions/MaksymKostyshyn.MindTrack.Data.Abstractions.csproj" Id="7a0f7624-c0cf-41bd-a0bb-4673f78b5ceb" />
     <Project Path="src/shared/MaksymKostyshyn.MindTrack.Data.ADO/MaksymKostyshyn.MindTrack.Data.ADO.csproj" Id="a7c04f74-b06f-469a-b947-bef2e0ded72b" />
     <Project Path="src/shared/MaksymKostyshyn.MindTrack.Data.EF/MaksymKostyshyn.MindTrack.Data.EF.csproj" Id="d0a2b758-03bb-484c-ac8c-46a8d3cde5e6" />
   </Folder>

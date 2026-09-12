@@ -1,4 +1,11 @@
+using MaksymKostyshyn.MindTrack.Data.EF.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("MindTrack")
+    ?? throw new InvalidOperationException("Connection string 'MindTrack' was not found. Configure it via user secrets.");
+
+builder.Services.AddMindTrackEntityFrameworkDataAccess(connectionString);
 
 builder.Services.AddControllers();
 
