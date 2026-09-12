@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/0 - Solution Items/" />
+  <Folder Name="/1 - Apps/">
+    <Project Path="src/apps/MaksymKostyshyn.MindTrack.WebSvc/MaksymKostyshyn.MindTrack.WebSvc.csproj" />
+  </Folder>
+  <Folder Name="/2 - Shared/">
+    <Project Path="src/shared/MaksymKostyshyn.MindTrack.Application.Abstractions/MaksymKostyshyn.MindTrack.Application.Abstractions.csproj" Id="be1fa2d5-9ce1-41b0-bc87-cb1ffb65d41b" />
+    <Project Path="src/shared/MaksymKostyshyn.MindTrack.Application/MaksymKostyshyn.MindTrack.Application.csproj" />
+    <Project Path="src/shared/MaksymKostyshyn.MindTrack.Domain/MaksymKostyshyn.MindTrack.Domain.csproj" />
+  </Folder>
+  <Folder Name="/2 - Shared/Adapters/">
+    <Project Path="src/shared/MaksymKostyshyn.MindTrack.Data.ADO/MaksymKostyshyn.MindTrack.Data.ADO.csproj" Id="a7c04f74-b06f-469a-b947-bef2e0ded72b" />
+    <Project Path="src/shared/MaksymKostyshyn.MindTrack.Data.EF/MaksymKostyshyn.MindTrack.Data.EF.csproj" Id="d0a2b758-03bb-484c-ac8c-46a8d3cde5e6" />
+  </Folder>
+  <Folder Name="/3 - Tests/">
+    <Project Path="tests/MaksymKostyshyn.MindTrack.Data.Ado.UnitTests/MaksymKostyshyn.MindTrack.Data.Ado.UnitTests.csproj" />
+    <Project Path="tests/MaksymKostyshyn.MindTrack.Data.EF.UnitTests/MaksymKostyshyn.MindTrack.Data.EF.UnitTests.csproj" Id="ecffeab4-2d0e-430d-bdca-235b7db1ef08" />
+  </Folder>
+</Solution>

@@ -1,0 +1,6 @@
+@MaksymKostyshyn.MindTrack.WebSvc_HostAddress = http://localhost:5240
+
+GET {{MaksymKostyshyn.MindTrack.WebSvc_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
