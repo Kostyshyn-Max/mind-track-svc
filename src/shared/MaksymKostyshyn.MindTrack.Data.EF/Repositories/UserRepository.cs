@@ -14,7 +14,7 @@ public class UserRepository(MindTrackDbContext dbContext, ILogger<UserRepository
     {
         try
         {
-            var entity = user.ToEnity();
+            var entity = user.ToEntity();
 
             await _dbContext.User.AddAsync(entity, cancellationToken);
 
@@ -69,7 +69,7 @@ public class UserRepository(MindTrackDbContext dbContext, ILogger<UserRepository
     {
         try
         {
-            var entity = user.ToEnity();
+            var entity = user.ToEntity();
 
             _dbContext.User.Update(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);

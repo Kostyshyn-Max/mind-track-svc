@@ -1,4 +1,4 @@
-﻿namespace MaksymKostyshyn.MindTrack.Domain;
+namespace MaksymKostyshyn.MindTrack.Domain.Enums;
 
 public enum AIResponseStyleType
 {

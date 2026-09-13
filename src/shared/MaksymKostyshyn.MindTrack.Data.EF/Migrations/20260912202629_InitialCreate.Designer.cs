@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
 {
     [DbContext(typeof(MindTrackDbContext))]
-    [Migration("20260912155533_InitialCreate")]
+    [Migration("20260912202629_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.AIRepsonseStyleEntity", b =>
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.AIResponseStyleEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -80,7 +80,7 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsVulnarable")
+                    b.Property<bool>("IsVulnerable")
                         .HasColumnType("bit");
 
                     b.Property<string>("PasswordHash")
@@ -90,7 +90,7 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("TherapishId")
+                    b.Property<Guid?>("TherapistId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -105,7 +105,7 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.HasIndex("TherapishId");
+                    b.HasIndex("TherapistId");
 
                     b.ToTable("User");
                 });
@@ -140,13 +140,13 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
                         new
                         {
                             Id = 3,
-                            Name = "User"
+                            Name = "Patient"
                         });
                 });
 
             modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.UserEntity", b =>
                 {
-                    b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.AIRepsonseStyleEntity", "AIRepsonseStyle")
+                    b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.AIResponseStyleEntity", "AIResponseStyle")
                         .WithMany()
                         .HasForeignKey("AIResponseStyleId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -160,11 +160,10 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
 
                     b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.UserEntity", "Therapist")
                         .WithMany()
-                        .HasForeignKey("TherapishId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("TherapistId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("AIRepsonseStyle");
+                    b.Navigation("AIResponseStyle");
 
                     b.Navigation("Role");
 

@@ -22,7 +22,7 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.AIRepsonseStyleEntity", b =>
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.AIResponseStyleEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,6 +51,316 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.AchievementEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PointsReward")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Achievement");
+                });
+
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.AlertEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DetectedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsResolved")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PatientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Severity")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TherapistId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TriggerReason")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
+
+                    b.HasIndex("TherapistId");
+
+                    b.ToTable("Alert");
+                });
+
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.AssignedPractices", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("JournalEntryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PracticeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("PracticeStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PracticeId");
+
+                    b.HasIndex("PracticeStatusId");
+
+                    b.HasIndex("JournalEntryId", "PracticeId")
+                        .IsUnique();
+
+                    b.ToTable("AssignedPractices");
+                });
+
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.EmotionAnalysesEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("AnalyzedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DominantEmotion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("IntonationScore")
+                        .HasColumnType("real");
+
+                    b.Property<Guid>("JournalEntryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("KeyPhrasesJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JournalEntryId")
+                        .IsUnique();
+
+                    b.ToTable("EmotionAnalyses");
+                });
+
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.JournalEntryEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("MotivationalMessage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PatientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("RecordedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<string>("Tips")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VideoUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("JournalEntry");
+                });
+
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.PracticeEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("DifficultyLevel")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PracticeTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UnlockPointsRequired")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PracticeTypeId");
+
+                    b.ToTable("Practice");
+                });
+
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.PracticeStatusEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PracticeStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Assigned"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Completed"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Skipped"
+                        });
+                });
+
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.PracticeTypeEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PracticeType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "CBT"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Meditation"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "SelfReflection"
+                        });
+                });
+
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.ReflectionAnswerEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("AnsweredAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Answers")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("JournalEntryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PreviousAnswerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Questions")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PreviousAnswerId");
+
+                    b.ToTable("ReflectionAnswers");
+                });
+
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.UserAchievementEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AchievementId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PatientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UnlockedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AchievementId");
+
+                    b.HasIndex("PatientId", "AchievementId")
+                        .IsUnique();
+
+                    b.ToTable("UserAchievement");
+                });
+
             modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.UserEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -77,7 +387,7 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsVulnarable")
+                    b.Property<bool>("IsVulnerable")
                         .HasColumnType("bit");
 
                     b.Property<string>("PasswordHash")
@@ -87,7 +397,7 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("TherapishId")
+                    b.Property<Guid?>("TherapistId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -102,7 +412,7 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.HasIndex("TherapishId");
+                    b.HasIndex("TherapistId");
 
                     b.ToTable("User");
                 });
@@ -137,13 +447,121 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
                         new
                         {
                             Id = 3,
-                            Name = "User"
+                            Name = "Patient"
                         });
+                });
+
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.AlertEntity", b =>
+                {
+                    b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.UserEntity", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.UserEntity", "Therapist")
+                        .WithMany()
+                        .HasForeignKey("TherapistId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
+
+                    b.Navigation("Therapist");
+                });
+
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.AssignedPractices", b =>
+                {
+                    b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.JournalEntryEntity", "JournalEntry")
+                        .WithMany()
+                        .HasForeignKey("JournalEntryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.PracticeEntity", "Practice")
+                        .WithMany()
+                        .HasForeignKey("PracticeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.PracticeStatusEntity", "PracticeStatus")
+                        .WithMany()
+                        .HasForeignKey("PracticeStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("JournalEntry");
+
+                    b.Navigation("Practice");
+
+                    b.Navigation("PracticeStatus");
+                });
+
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.EmotionAnalysesEntity", b =>
+                {
+                    b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.JournalEntryEntity", "JournalEntry")
+                        .WithMany()
+                        .HasForeignKey("JournalEntryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("JournalEntry");
+                });
+
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.JournalEntryEntity", b =>
+                {
+                    b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.UserEntity", "Patient")
+                        .WithMany("JournalEntries")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.PracticeEntity", b =>
+                {
+                    b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.PracticeTypeEntity", "PracticeType")
+                        .WithMany()
+                        .HasForeignKey("PracticeTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PracticeType");
+                });
+
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.ReflectionAnswerEntity", b =>
+                {
+                    b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.ReflectionAnswerEntity", "ReflectionAnswer")
+                        .WithMany()
+                        .HasForeignKey("PreviousAnswerId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("ReflectionAnswer");
+                });
+
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.UserAchievementEntity", b =>
+                {
+                    b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.AchievementEntity", "Achievement")
+                        .WithMany()
+                        .HasForeignKey("AchievementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.UserEntity", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Achievement");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.UserEntity", b =>
                 {
-                    b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.AIRepsonseStyleEntity", "AIRepsonseStyle")
+                    b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.AIResponseStyleEntity", "AIResponseStyle")
                         .WithMany()
                         .HasForeignKey("AIResponseStyleId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -157,15 +575,19 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
 
                     b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.UserEntity", "Therapist")
                         .WithMany()
-                        .HasForeignKey("TherapishId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("TherapistId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("AIRepsonseStyle");
+                    b.Navigation("AIResponseStyle");
 
                     b.Navigation("Role");
 
                     b.Navigation("Therapist");
+                });
+
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.UserEntity", b =>
+                {
+                    b.Navigation("JournalEntries");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,6 +4,7 @@ using MaksymKostyshyn.MindTrack.Data.EF.Repositories;
 using MaksymKostyshyn.MindTrack.Data.EF.UnitTests.TestData;
 using MaksymKostyshyn.MindTrack.Data.EF.UnitTests.TestSupport;
 using MaksymKostyshyn.MindTrack.Domain;
+using MaksymKostyshyn.MindTrack.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -53,9 +54,9 @@ public class UserRepositoryTests
             Email = email,
             PasswordHash = "hash",
             FullName = fullName,
-            RoleId = (int)UserRole.User,
-            TherapishId = Guid.Empty,
-            IsVulnarable = false,
+            RoleId = (int)UserRole.Patient,
+            TherapistId = null,
+            IsVulnerable = false,
             AIResponseStyleId = (int)AIResponseStyleType.Standard,
             EarnedPoints = 0,
             IsActive = isActive,

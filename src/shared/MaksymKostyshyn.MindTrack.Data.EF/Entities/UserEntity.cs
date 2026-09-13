@@ -9,8 +9,8 @@ public class UserEntity
     public string PasswordHash { get; set; } = string.Empty;
     public string FullName { get; set; } = string.Empty;
     public int RoleId { get; set; }
-    public Guid TherapishId { get; set; }
-    public bool IsVulnarable { get; set; }
+    public Guid? TherapistId { get; set; }
+    public bool IsVulnerable { get; set; }
     public int AIResponseStyleId { get; set; }
     public int EarnedPoints { get; set; } = 0;
 
@@ -22,8 +22,10 @@ public class UserEntity
     public UserRoleEntity Role { get; set; } = null!;
 
     [ForeignKey(nameof(AIResponseStyleId))]
-    public AIRepsonseStyleEntity AIRepsonseStyle { get; set; } = null!;
+    public AIResponseStyleEntity AIResponseStyle { get; set; } = null!;
 
-    [ForeignKey(nameof(TherapishId))]
-    public UserEntity Therapist { get; set; } = null!;
+    [ForeignKey(nameof(TherapistId))]
+    public UserEntity? Therapist { get; set; }
+
+    public IList<JournalEntryEntity> JournalEntries { get; set; } = [];
 }

@@ -5,7 +5,7 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Mappers;
 
 public static class UserMapper
 {
-    public static UserEntity ToEnity(this User user)
+    public static UserEntity ToEntity(this User user)
     {
         return new UserEntity
         {
@@ -14,8 +14,8 @@ public static class UserMapper
             PasswordHash = user.PasswordHash,
             FullName = user.FullName,
             RoleId = (int)user.Role,
-            TherapishId = user.TherapishId,
-            IsVulnarable = user.IsVulnarable,
+            TherapistId = user.TherapistId,
+            IsVulnerable = user.IsVulnerable,
             AIResponseStyleId = (int)user.AIResponseStyleType,
             EarnedPoints = user.EarnedPoints,
             IsActive = user.IsActive,
@@ -32,8 +32,8 @@ public static class UserMapper
             user.PasswordHash,
             user.FullName,
             user.RoleId,
-            user.TherapishId,
-            user.IsVulnarable,
+            user.TherapistId,
+            user.IsVulnerable,
             user.AIResponseStyleId,
             user.EarnedPoints,
             user.IsActive,

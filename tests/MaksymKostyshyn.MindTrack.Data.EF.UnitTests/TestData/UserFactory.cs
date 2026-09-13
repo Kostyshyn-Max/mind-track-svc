@@ -1,4 +1,5 @@
 using MaksymKostyshyn.MindTrack.Domain;
+using MaksymKostyshyn.MindTrack.Domain.Enums;
 
 namespace MaksymKostyshyn.MindTrack.Data.EF.UnitTests.TestData;
 
@@ -11,9 +12,9 @@ public static class UserFactory
         string email = "test.user@example.com",
         string passwordHash = "hash",
         string fullName = "Test User",
-        UserRole role = UserRole.User,
+        UserRole role = UserRole.Patient,
         Guid? therapistId = null,
-        bool isVulnarable = false,
+        bool isVulnerable = false,
         AIResponseStyleType aiResponseStyleType = AIResponseStyleType.Standard,
         int earnedPoints = 0,
         bool isActive = true,
@@ -26,8 +27,8 @@ public static class UserFactory
             passwordHash,
             fullName,
             (int)role,
-            therapistId ?? Guid.Empty,
-            isVulnarable,
+            therapistId,
+            isVulnerable,
             (int)aiResponseStyleType,
             earnedPoints,
             isActive,

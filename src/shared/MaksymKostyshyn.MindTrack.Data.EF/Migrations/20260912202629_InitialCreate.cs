@@ -48,8 +48,8 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false),
-                    TherapishId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsVulnarable = table.Column<bool>(type: "bit", nullable: false),
+                    TherapistId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsVulnerable = table.Column<bool>(type: "bit", nullable: false),
                     AIResponseStyleId = table.Column<int>(type: "int", nullable: false),
                     EarnedPoints = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
@@ -72,8 +72,8 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_User_User_TherapishId",
-                        column: x => x.TherapishId,
+                        name: "FK_User_User_TherapistId",
+                        column: x => x.TherapistId,
                         principalTable: "User",
                         principalColumn: "Id");
                 });
@@ -94,7 +94,7 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
                 {
                     { 1, "Administrator" },
                     { 2, "Therapist" },
-                    { 3, "User" }
+                    { 3, "Patient" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -114,9 +114,9 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_TherapishId",
+                name: "IX_User_TherapistId",
                 table: "User",
-                column: "TherapishId");
+                column: "TherapistId");
         }
 
         /// <inheritdoc />

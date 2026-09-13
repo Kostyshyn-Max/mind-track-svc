@@ -13,16 +13,16 @@ public static class UserMockDataFactory
         [
             new UserRoleEntity { Id = 1, Name = "Administrator" },
             new UserRoleEntity { Id = 2, Name = "Therapist" },
-            new UserRoleEntity { Id = 3, Name = "User" }
+            new UserRoleEntity { Id = 3, Name = "Patient" }
         ];
     }
 
-    public static List<AIRepsonseStyleEntity> CreateAIResponseStyles()
+    public static List<AIResponseStyleEntity> CreateAIResponseStyles()
     {
         return
         [
-            new AIRepsonseStyleEntity { Id = 1, Name = "Standard" },
-            new AIRepsonseStyleEntity { Id = 2, Name = "Cautious" }
+            new AIResponseStyleEntity { Id = 1, Name = "Standard" },
+            new AIResponseStyleEntity { Id = 2, Name = "Cautious" }
         ];
     }
 
@@ -40,8 +40,8 @@ public static class UserMockDataFactory
                 PasswordHash = "hash",
                 FullName = "Charlie Patient",
                 RoleId = 3,
-                TherapishId = TherapistAId,
-                IsVulnarable = false,
+                TherapistId = TherapistAId,
+                IsVulnerable = false,
                 AIResponseStyleId = 1,
                 EarnedPoints = 40,
                 IsActive = true,
@@ -55,8 +55,8 @@ public static class UserMockDataFactory
                 PasswordHash = "hash",
                 FullName = "Bob Patient",
                 RoleId = 3,
-                TherapishId = TherapistAId,
-                IsVulnarable = false,
+                TherapistId = TherapistAId,
+                IsVulnerable = false,
                 AIResponseStyleId = 1,
                 EarnedPoints = 80,
                 IsActive = false,
@@ -71,8 +71,8 @@ public static class UserMockDataFactory
                 PasswordHash = "hash",
                 FullName = "Dana Patient",
                 RoleId = 3,
-                TherapishId = TherapistAId,
-                IsVulnarable = false,
+                TherapistId = TherapistAId,
+                IsVulnerable = false,
                 AIResponseStyleId = 2,
                 EarnedPoints = 60,
                 IsActive = true,
@@ -90,8 +90,8 @@ public static class UserMockDataFactory
                 PasswordHash = "hash",
                 FullName = "Alice Patient",
                 RoleId = 3,
-                TherapishId = TherapistAId,
-                IsVulnarable = true,
+                TherapistId = TherapistAId,
+                IsVulnerable = true,
                 AIResponseStyleId = 2,
                 EarnedPoints = 120,
                 IsActive = true,
@@ -107,8 +107,8 @@ public static class UserMockDataFactory
                 PasswordHash = "hash",
                 FullName = "Dave Patient",
                 RoleId = 3,
-                TherapishId = TherapistBId,
-                IsVulnarable = false,
+                TherapistId = TherapistBId,
+                IsVulnerable = false,
                 AIResponseStyleId = 2,
                 EarnedPoints = 10,
                 IsActive = true,
@@ -116,7 +116,7 @@ public static class UserMockDataFactory
                 UpdatedAt = now
             },
 
-            // Therapist entity itself — has no TherapishId of its own, used to prove it's excluded from its own patient list.
+            // Therapist entity itself — has no TherapistId of its own, used to prove it's excluded from its own patient list.
             new UserEntity
             {
                 Id = TherapistAId,
@@ -124,8 +124,8 @@ public static class UserMockDataFactory
                 PasswordHash = "hash",
                 FullName = "Therapist A",
                 RoleId = 2,
-                TherapishId = Guid.Empty,
-                IsVulnarable = false,
+                TherapistId = null,
+                IsVulnerable = false,
                 AIResponseStyleId = 1,
                 EarnedPoints = 0,
                 IsActive = true,

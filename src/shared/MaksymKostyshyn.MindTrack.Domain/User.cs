@@ -1,4 +1,6 @@
-﻿namespace MaksymKostyshyn.MindTrack.Domain;
+using MaksymKostyshyn.MindTrack.Domain.Enums;
+
+namespace MaksymKostyshyn.MindTrack.Domain;
 
 public class User(
     Guid id,
@@ -6,8 +8,8 @@ public class User(
     string passwordHash,
     string fullName,
     int roleId,
-    Guid therapistId,
-    bool isVulnarable,
+    Guid? therapistId,
+    bool isVulnerable,
     int aiResponseStyleTypeId,
     int earnedPoints,
     bool isActive,
@@ -19,8 +21,8 @@ public class User(
     public string PasswordHash { get; private set; } = passwordHash;
     public string FullName { get; private set; } = fullName;
     public UserRole Role { get; private set; } = (UserRole)roleId;
-    public Guid TherapishId { get; private set; } = therapistId;
-    public bool IsVulnarable { get; private set; } = isVulnarable;
+    public Guid? TherapistId { get; private set; } = therapistId;
+    public bool IsVulnerable { get; private set; } = isVulnerable;
     public AIResponseStyleType AIResponseStyleType { get; private set; } = (AIResponseStyleType)aiResponseStyleTypeId;
     public int EarnedPoints { get; private set; } = earnedPoints;
 
