@@ -17,4 +17,10 @@ public class JournalEntryEntity
 
     [ForeignKey(nameof(PatientId))]
     public UserEntity Patient { get; set; } = null!;
+
+    public IList<AssignedPractices> AssignedPractices { get; set; } = [];
+
+    public EmotionAnalysesEntity? EmotionAnalysis { get; set; }
+
+    public IList<ReflectionAnswerEntity> ReflectionAnswers { get; set; } = [];
 }

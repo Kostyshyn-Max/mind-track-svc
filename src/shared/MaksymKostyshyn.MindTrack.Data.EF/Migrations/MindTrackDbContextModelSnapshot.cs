@@ -331,6 +331,8 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("JournalEntryId");
+
                     b.HasIndex("PreviousAnswerId");
 
                     b.ToTable("ReflectionAnswers");
@@ -473,7 +475,7 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
             modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.AssignedPractices", b =>
                 {
                     b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.JournalEntryEntity", "JournalEntry")
-                        .WithMany()
+                        .WithMany("AssignedPractices")
                         .HasForeignKey("JournalEntryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -500,8 +502,8 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
             modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.EmotionAnalysesEntity", b =>
                 {
                     b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.JournalEntryEntity", "JournalEntry")
-                        .WithMany()
-                        .HasForeignKey("JournalEntryId")
+                        .WithOne("EmotionAnalysis")
+                        .HasForeignKey("MaksymKostyshyn.MindTrack.Data.EF.Entities.EmotionAnalysesEntity", "JournalEntryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -532,10 +534,18 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
 
             modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.ReflectionAnswerEntity", b =>
                 {
+                    b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.JournalEntryEntity", "JournalEntry")
+                        .WithMany("ReflectionAnswers")
+                        .HasForeignKey("JournalEntryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MaksymKostyshyn.MindTrack.Data.EF.Entities.ReflectionAnswerEntity", "ReflectionAnswer")
                         .WithMany()
                         .HasForeignKey("PreviousAnswerId")
                         .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("JournalEntry");
 
                     b.Navigation("ReflectionAnswer");
                 });
@@ -583,6 +593,15 @@ namespace MaksymKostyshyn.MindTrack.Data.EF.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("Therapist");
+                });
+
+            modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.JournalEntryEntity", b =>
+                {
+                    b.Navigation("AssignedPractices");
+
+                    b.Navigation("EmotionAnalysis");
+
+                    b.Navigation("ReflectionAnswers");
                 });
 
             modelBuilder.Entity("MaksymKostyshyn.MindTrack.Data.EF.Entities.UserEntity", b =>

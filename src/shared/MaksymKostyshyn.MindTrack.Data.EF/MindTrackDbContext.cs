@@ -89,9 +89,15 @@ public sealed class MindTrackDbContext : DbContext
             .Property(entry => entry.RowVersion)
             .IsRowVersion();
 
-        modelBuilder.Entity<EmotionAnalysesEntity>()
-            .HasIndex(analysis => analysis.JournalEntryId)
-            .IsUnique();
+        modelBuilder.Entity<JournalEntryEntity>()
+            .HasOne(entry => entry.EmotionAnalysis)
+            .WithOne(analysis => analysis.JournalEntry)
+            .HasForeignKey<EmotionAnalysesEntity>(analysis => analysis.JournalEntryId);
+
+        modelBuilder.Entity<ReflectionAnswerEntity>()
+            .HasOne(answer => answer.JournalEntry)
+            .WithMany(entry => entry.ReflectionAnswers)
+            .HasForeignKey(answer => answer.JournalEntryId);
 
         modelBuilder.Entity<AssignedPractices>()
             .HasIndex(assignedPractice => new { assignedPractice.JournalEntryId, assignedPractice.PracticeId })

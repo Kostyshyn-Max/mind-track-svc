@@ -11,6 +11,9 @@ public class ReflectionAnswerEntity
     public Guid? PreviousAnswerId { get; set; }
     public DateTime AnsweredAt { get; set; }
 
+    [ForeignKey(nameof(JournalEntryId))]
+    public JournalEntryEntity JournalEntry { get; set; } = null!;
+
     [ForeignKey(nameof(PreviousAnswerId))]
     public ReflectionAnswerEntity? ReflectionAnswer { get; set; }
 }
