@@ -5,6 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>e7cdc951-6b30-4a8e-9919-5775c11ef232</UserSecretsId>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\shared\MaksymKostyshyn.MindTrack.Application\MaksymKostyshyn.MindTrack.Application.csproj" />
+    <ProjectReference Include="..\..\shared\MaksymKostyshyn.MindTrack.Data.ADO\MaksymKostyshyn.MindTrack.Data.ADO.csproj" />
     <ProjectReference Include="..\..\shared\MaksymKostyshyn.MindTrack.Data.EF\MaksymKostyshyn.MindTrack.Data.EF.csproj" />
     <ProjectReference Include="..\..\shared\MaksymKostyshyn.MindTrack.Data.EF.Scaffolded\MaksymKostyshyn.MindTrack.Data.EF.Scaffolded.csproj" />
   </ItemGroup>

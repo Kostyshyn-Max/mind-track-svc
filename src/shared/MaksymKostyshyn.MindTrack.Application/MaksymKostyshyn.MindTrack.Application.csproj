@@ -6,4 +6,15 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MaksymKostyshyn.MindTrack.Domain\MaksymKostyshyn.MindTrack.Domain.csproj" />
+    <ProjectReference Include="..\MaksymKostyshyn.MindTrack.Application.Abstractions\MaksymKostyshyn.MindTrack.Application.Abstractions.csproj" />
+    <ProjectReference Include="..\MaksymKostyshyn.MindTrack.Data.Abstractions\MaksymKostyshyn.MindTrack.Data.Abstractions.csproj" />
+  </ItemGroup>
+
 </Project>

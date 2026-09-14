@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MaksymKostyshyn.MindTrack.Domain\MaksymKostyshyn.MindTrack.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
