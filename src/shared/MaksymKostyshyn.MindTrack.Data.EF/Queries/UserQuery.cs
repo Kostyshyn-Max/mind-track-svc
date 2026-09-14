@@ -16,11 +16,10 @@ public class UserQuery(MindTrackDbContext dbContext, ILogger<UserQuery> logger) 
         {
             var patients = await _dbContext.User
                 .Where(user => user.TherapistId.Equals(therapistId) && user.IsActive)
-                .Include(user => user.AIResponseStyle)
-                .Select(user => new UserSummary(user.Id, user.FullName, user.Email, user.AIResponseStyle.Name, user.EarnedPoints))
+                .OrderBy(user => user.FullName)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .OrderBy(user => user.FullName)
+                .Select(user => new UserSummary(user.Id, user.FullName, user.Email, user.AIResponseStyle.Name, user.EarnedPoints))
                 .ToListAsync(cancellationToken);
 
             return patients;

@@ -19,6 +19,7 @@
   </Folder>
   <Folder Name="/3 - Tests/">
     <Project Path="tests/MaksymKostyshyn.MindTrack.Data.Ado.UnitTests/MaksymKostyshyn.MindTrack.Data.Ado.UnitTests.csproj" />
+    <Project Path="tests/MaksymKostyshyn.MindTrack.Data.EF.IntegrationTests/MaksymKostyshyn.MindTrack.Data.EF.IntegrationTests.csproj" Id="913163b3-59ab-499a-9e84-3da85a1e1dec" />
     <Project Path="tests/MaksymKostyshyn.MindTrack.Data.EF.UnitTests/MaksymKostyshyn.MindTrack.Data.EF.UnitTests.csproj" Id="ecffeab4-2d0e-430d-bdca-235b7db1ef08" />
   </Folder>
 </Solution>
