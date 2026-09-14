@@ -1,3 +1,5 @@
+using MaksymKostyshyn.MindTrack.Data.Abstractions.Repositories;
+using MaksymKostyshyn.MindTrack.Data.EF.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +13,8 @@ public static class DependencyInjectionExtension
     {
         services.AddDbContext<MindTrackDbContext>(options =>
             options.UseSqlServer(connectionString));
+
+        services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }
