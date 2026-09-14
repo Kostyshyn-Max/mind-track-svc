@@ -14,6 +14,7 @@
   <Folder Name="/2 - Shared/Adapters/">
     <Project Path="src/shared/MaksymKostyshyn.MindTrack.Data.Abstractions/MaksymKostyshyn.MindTrack.Data.Abstractions.csproj" Id="7a0f7624-c0cf-41bd-a0bb-4673f78b5ceb" />
     <Project Path="src/shared/MaksymKostyshyn.MindTrack.Data.ADO/MaksymKostyshyn.MindTrack.Data.ADO.csproj" Id="a7c04f74-b06f-469a-b947-bef2e0ded72b" />
+    <Project Path="src/shared/MaksymKostyshyn.MindTrack.Data.EF.Scaffolded/MaksymKostyshyn.MindTrack.Data.EF.Scaffolded.csproj" Id="424c4898-d6b9-422c-a92d-64d675a88207" />
     <Project Path="src/shared/MaksymKostyshyn.MindTrack.Data.EF/MaksymKostyshyn.MindTrack.Data.EF.csproj" Id="d0a2b758-03bb-484c-ac8c-46a8d3cde5e6" />
   </Folder>
   <Folder Name="/3 - Tests/">

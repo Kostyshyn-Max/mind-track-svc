@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\shared\MaksymKostyshyn.MindTrack.Data.EF\MaksymKostyshyn.MindTrack.Data.EF.csproj" />
+    <ProjectReference Include="..\..\shared\MaksymKostyshyn.MindTrack.Data.EF.Scaffolded\MaksymKostyshyn.MindTrack.Data.EF.Scaffolded.csproj" />
   </ItemGroup>
 
 </Project>
