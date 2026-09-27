@@ -1,4 +1,5 @@
 using MaksymKostyshyn.MindTrack.Application.Extensions;
+using MaksymKostyshyn.MindTrack.Auth.Extensions;
 using MaksymKostyshyn.MindTrack.Data.ADO.Extensions;
 using MaksymKostyshyn.MindTrack.Data.EF.Extensions;
 using MaksymKostyshyn.MindTrack.WebSvc.ExceptionHandling;
@@ -24,7 +25,7 @@ builder.Services.AddSwaggerGen(options =>
             AuthorizationCode = new OpenApiOAuthFlow
             {
                 AuthorizationUrl = new Uri("https://accounts.google.com/o/oauth2/v2/auth"),
-                TokenUrl = new Uri("https://oauth2.googleapis.com/token"),
+                TokenUrl = new Uri("/api/auth/token", UriKind.Relative),
                 Scopes = new Dictionary<string, string>
                 {
                     { "openid", "OpenID" },
@@ -46,8 +47,10 @@ builder.Services.AddOpenApi();
 builder.Services.AddMindTrackEntityFrameworkDataAccess(connectionString);
 builder.Services.AddMindTrackAdoDataAccess(connectionString);
 builder.Services.AddMindTrackApplication();
+builder.Services.AddMindTrackAuth(builder.Configuration);
 
 builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
+builder.Services.AddExceptionHandler<AuthExceptionHandler>();
 builder.Services.AddProblemDetails();
 
 builder.Services.Configure<RouteOptions>(options => 
@@ -69,7 +72,6 @@ if (app.Environment.IsDevelopment())
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API v1");
         c.OAuthClientId(builder.Configuration["Authentication:Google:ClientId"]);
-        c.OAuthClientSecret(builder.Configuration["Authentication:Google:ClientSecret"]);
         c.OAuthUsePkce();
         c.OAuthScopeSeparator(" ");
         c.OAuthScopes(["openid", "email", "profile"]);

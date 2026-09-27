@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\shared\MaksymKostyshyn.MindTrack.Application\MaksymKostyshyn.MindTrack.Application.csproj" />
+    <ProjectReference Include="..\..\shared\MaksymKostyshyn.MindTrack.Auth\MaksymKostyshyn.MindTrack.Auth.csproj" />
     <ProjectReference Include="..\..\shared\MaksymKostyshyn.MindTrack.Data.ADO\MaksymKostyshyn.MindTrack.Data.ADO.csproj" />
     <ProjectReference Include="..\..\shared\MaksymKostyshyn.MindTrack.Data.EF\MaksymKostyshyn.MindTrack.Data.EF.csproj" />
     <ProjectReference Include="..\..\shared\MaksymKostyshyn.MindTrack.Data.EF.Scaffolded\MaksymKostyshyn.MindTrack.Data.EF.Scaffolded.csproj" />

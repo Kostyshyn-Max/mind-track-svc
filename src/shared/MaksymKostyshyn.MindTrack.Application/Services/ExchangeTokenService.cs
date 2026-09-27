@@ -17,7 +17,7 @@ public class ExchangeTokenService(IGoogleOAuthService googleOAuthService, IUserQ
 
         if (!identity.EmailVerified)
         {
-            throw new InvalidOperationException("Google email not verified.");
+            throw new GoogleTokenExchangeException("Google email not verified.");
         }
 
         var user = await _userQuery.GetByEmailAsync(identity.Email, cancellationToken) ?? throw new UserNotRegisteredException(identity.Email);

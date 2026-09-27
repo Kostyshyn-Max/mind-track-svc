@@ -16,6 +16,7 @@ public static class DependencyInjectionExtension
     {
         services.AddScoped<IAchievementService, AchievementService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IExchangeTokenService, ExchangeTokenService>();
 
         services.RegisterValidators();
         services.RegisterUseCases();
