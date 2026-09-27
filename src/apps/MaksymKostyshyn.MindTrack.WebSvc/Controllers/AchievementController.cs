@@ -1,7 +1,7 @@
 using MaksymKostyshyn.MindTrack.Application.UseCases.Achievements;
 using MaksymKostyshyn.MindTrack.Domain;
 using MaksymKostyshyn.MindTrack.WebSvc.Mappers;
-using MaksymKostyshyn.MindTrack.WebSvc.Models;
+using MaksymKostyshyn.MindTrack.WebSvc.Models.Achievement;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MaksymKostyshyn.MindTrack.WebSvc.Controllers;

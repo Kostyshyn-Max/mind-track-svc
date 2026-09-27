@@ -1,5 +1,5 @@
 using MaksymKostyshyn.MindTrack.Application.Commands;
-using MaksymKostyshyn.MindTrack.WebSvc.Models;
+using MaksymKostyshyn.MindTrack.WebSvc.Models.Achievement;
 
 namespace MaksymKostyshyn.MindTrack.WebSvc.Mappers;
 

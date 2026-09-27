@@ -1,6 +1,8 @@
 using MaksymKostyshyn.MindTrack.Application.Abstractions.Services;
 using MaksymKostyshyn.MindTrack.Data.Abstractions.Repositories;
 using MaksymKostyshyn.MindTrack.Domain;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MaksymKostyshyn.MindTrack.Application.Services;
 
@@ -11,7 +13,11 @@ public class UserService(IUserRepository userRepository) : IUserService
     public async Task<User?> CreateUserAsync(string email, string password, string fullName, int roleId, Guid? therapistId, bool isVulnerable, int aiResponseStyleTypeId, CancellationToken cancellationToken)
     {
         var now = DateTime.UtcNow;
-        var user = new User(Guid.NewGuid(), email, password, fullName, roleId, therapistId, isVulnerable, aiResponseStyleTypeId, 0, true, now, now);
+
+        var passwordBytes = SHA256.HashData(Encoding.UTF8.GetBytes(password));
+        var hashedPassword = Convert.ToHexString(passwordBytes);
+
+        var user = new User(Guid.NewGuid(), email, hashedPassword, fullName, roleId, therapistId, isVulnerable, aiResponseStyleTypeId, 0, true, now, now);
 
         var result = await _userRepository.CreateUserAsync(user, cancellationToken);
         return result;

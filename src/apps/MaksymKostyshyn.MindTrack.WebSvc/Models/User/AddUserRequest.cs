@@ -1,6 +1,6 @@
-namespace MaksymKostyshyn.MindTrack.WebSvc.Models;
+namespace MaksymKostyshyn.MindTrack.WebSvc.Models.User;
 
-public class UpdateUserRequest
+public class AddUserRequest
 {
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;

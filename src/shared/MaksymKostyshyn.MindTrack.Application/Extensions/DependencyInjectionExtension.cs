@@ -3,6 +3,7 @@ using MaksymKostyshyn.MindTrack.Application.Abstractions.Services;
 using MaksymKostyshyn.MindTrack.Application.Commands;
 using MaksymKostyshyn.MindTrack.Application.Services;
 using MaksymKostyshyn.MindTrack.Application.UseCases.Achievements;
+using MaksymKostyshyn.MindTrack.Application.UseCases.Auth;
 using MaksymKostyshyn.MindTrack.Application.UseCases.Users;
 using MaksymKostyshyn.MindTrack.Application.Validators;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,11 +17,23 @@ public static class DependencyInjectionExtension
         services.AddScoped<IAchievementService, AchievementService>();
         services.AddScoped<IUserService, UserService>();
 
+        services.RegisterValidators();
+        services.RegisterUseCases();
+
+        return services;
+    }
+
+    private static void RegisterValidators(this IServiceCollection services)
+    {
         services.AddScoped<IValidator<AddAchievementCommand>, AddAchievementCommandValidator>();
         services.AddScoped<IValidator<UpdateAchievementCommand>, UpdateAchievementCommandValidator>();
         services.AddScoped<IValidator<AddUserCommand>, AddUserCommandValidator>();
         services.AddScoped<IValidator<UpdateUserCommand>, UpdateUserCommandValidator>();
+        services.AddScoped<IValidator<ExchangeTokenCommand>,  ExchangeTokenCommandValidator>();
+    }
 
+    private static void RegisterUseCases(this IServiceCollection services)
+    {
         services.AddScoped<AddAchievementUseCase>();
         services.AddScoped<GetAchievementUseCase>();
         services.AddScoped<UpdateAchievementUseCase>();
@@ -31,6 +44,6 @@ public static class DependencyInjectionExtension
         services.AddScoped<UpdateUserUseCase>();
         services.AddScoped<DeleteUserUseCase>();
 
-        return services;
+        services.AddScoped<ExchangeTokenUseCase>();
     }
 }

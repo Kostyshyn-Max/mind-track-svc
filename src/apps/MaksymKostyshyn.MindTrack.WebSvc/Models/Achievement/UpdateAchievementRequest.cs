@@ -1,6 +1,6 @@
-﻿namespace MaksymKostyshyn.MindTrack.WebSvc.Models;
+namespace MaksymKostyshyn.MindTrack.WebSvc.Models.Achievement;
 
-public class AddAchievementRequest
+public class UpdateAchievementRequest
 {
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;

@@ -17,6 +17,9 @@
     <Project Path="src/shared/MaksymKostyshyn.MindTrack.Data.EF.Scaffolded/MaksymKostyshyn.MindTrack.Data.EF.Scaffolded.csproj" Id="424c4898-d6b9-422c-a92d-64d675a88207" />
     <Project Path="src/shared/MaksymKostyshyn.MindTrack.Data.EF/MaksymKostyshyn.MindTrack.Data.EF.csproj" Id="d0a2b758-03bb-484c-ac8c-46a8d3cde5e6" />
   </Folder>
+  <Folder Name="/2 - Shared/Infrastracture/">
+    <Project Path="src/shared/MaksymKostyshyn.MindTrack.Auth/MaksymKostyshyn.MindTrack.Auth.csproj" Id="2bf6efed-bfaf-4c89-b979-21dc765b818f" />
+  </Folder>
   <Folder Name="/3 - Tests/">
     <Project Path="tests/MaksymKostyshyn.MindTrack.Data.Ado.UnitTests/MaksymKostyshyn.MindTrack.Data.Ado.UnitTests.csproj" />
     <Project Path="tests/MaksymKostyshyn.MindTrack.Data.EF.IntegrationTests/MaksymKostyshyn.MindTrack.Data.EF.IntegrationTests.csproj" Id="913163b3-59ab-499a-9e84-3da85a1e1dec" />

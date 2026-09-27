@@ -1,0 +1,317 @@
+openapi: 3.0.3
+info:
+  title: MindTrack API
+  description: API for managing users and achievements in MindTrack.
+  version: "1.0"
+servers:
+  - url: http://localhost:5240
+    description: Local HTTP
+  - url: https://localhost:7052
+    description: Local HTTPS
+tags:
+  - name: User
+  - name: Achievement
+paths:
+  /api/User:
+    post:
+      tags: [User]
+      summary: Creates a new user.
+      operationId: CreateUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddUserRequest'
+            example:
+              email: jane.doe@example.com
+              password: P@ssw0rd123
+              fullName: Jane Doe
+              roleId: 3
+              therapistId: null
+              isVulnerable: false
+              aiResponseStyleTypeId: 1
+      responses:
+        '201':
+          description: The created user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Creation failed.
+
+  /api/User/{id}:
+    get:
+      tags: [User]
+      summary: Retrieves a user by its id.
+      operationId: GetUserById
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: The user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: No user exists with that id.
+    put:
+      tags: [User]
+      summary: Updates an existing user.
+      operationId: UpdateUser
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+            example:
+              email: jane.doe@example.com
+              password: NewP@ssw0rd123
+              fullName: Jane Doe
+              roleId: 3
+              therapistId: null
+              isVulnerable: false
+              aiResponseStyleTypeId: 1
+      responses:
+        '204':
+          description: Update succeeded.
+        '400':
+          description: Validation failed.
+        '404':
+          description: No user exists with that id.
+    delete:
+      tags: [User]
+      summary: Deletes a user.
+      operationId: DeleteUser
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '204':
+          description: Deletion succeeded.
+        '404':
+          description: No user exists with that id.
+
+  /api/Achievement:
+    post:
+      tags: [Achievement]
+      summary: Creates a new achievement.
+      operationId: CreateAchievement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddAchievementRequest'
+            example:
+              name: First Steps
+              description: Completed your first daily check-in.
+              pointsReward: 10
+      responses:
+        '201':
+          description: The created achievement.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Achievement'
+        '400':
+          description: Creation failed.
+
+  /api/Achievement/{id}:
+    get:
+      tags: [Achievement]
+      summary: Retrieves an achievement by its id.
+      operationId: GetAchievementById
+      parameters:
+        - $ref: '#/components/parameters/AchievementId'
+      responses:
+        '200':
+          description: The achievement.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Achievement'
+        '404':
+          description: No achievement exists with that id.
+    put:
+      tags: [Achievement]
+      summary: Updates an existing achievement.
+      operationId: UpdateAchievement
+      parameters:
+        - $ref: '#/components/parameters/AchievementId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAchievementRequest'
+            example:
+              name: First Steps
+              description: Completed your first daily check-in.
+              pointsReward: 15
+      responses:
+        '204':
+          description: Update succeeded.
+        '400':
+          description: Validation failed.
+        '404':
+          description: No achievement exists with that id.
+    delete:
+      tags: [Achievement]
+      summary: Deletes an achievement.
+      operationId: DeleteAchievement
+      parameters:
+        - $ref: '#/components/parameters/AchievementId'
+      responses:
+        '204':
+          description: Deletion succeeded.
+        '404':
+          description: No achievement exists with that id.
+
+components:
+  parameters:
+    UserId:
+      name: id
+      in: path
+      required: true
+      description: The user's id.
+      schema:
+        type: string
+        format: uuid
+    AchievementId:
+      name: id
+      in: path
+      required: true
+      description: The achievement's id.
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+    UserRole:
+      type: integer
+      enum: [1, 2, 3]
+      description: "1 = Administrator, 2 = Therapist, 3 = Patient"
+    AIResponseStyleType:
+      type: integer
+      enum: [1, 2]
+      description: "1 = Standard, 2 = Cautious"
+
+    AddUserRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        fullName:
+          type: string
+        roleId:
+          $ref: '#/components/schemas/UserRole'
+        therapistId:
+          type: string
+          format: uuid
+          nullable: true
+        isVulnerable:
+          type: boolean
+        aiResponseStyleTypeId:
+          $ref: '#/components/schemas/AIResponseStyleType'
+      required: [email, password, fullName, roleId, isVulnerable, aiResponseStyleTypeId]
+
+    UpdateUserRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        fullName:
+          type: string
+        roleId:
+          $ref: '#/components/schemas/UserRole'
+        therapistId:
+          type: string
+          format: uuid
+          nullable: true
+        isVulnerable:
+          type: boolean
+        aiResponseStyleTypeId:
+          $ref: '#/components/schemas/AIResponseStyleType'
+      required: [email, password, fullName, roleId, isVulnerable, aiResponseStyleTypeId]
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        passwordHash:
+          type: string
+        fullName:
+          type: string
+        role:
+          $ref: '#/components/schemas/UserRole'
+        therapistId:
+          type: string
+          format: uuid
+          nullable: true
+        isVulnerable:
+          type: boolean
+        aiResponseStyleType:
+          $ref: '#/components/schemas/AIResponseStyleType'
+        earnedPoints:
+          type: integer
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    AddAchievementRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        pointsReward:
+          type: integer
+      required: [name, description, pointsReward]
+
+    UpdateAchievementRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        pointsReward:
+          type: integer
+      required: [name, description, pointsReward]
+
+    Achievement:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        pointsReward:
+          type: integer

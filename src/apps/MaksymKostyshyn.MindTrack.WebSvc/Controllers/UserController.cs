@@ -1,13 +1,12 @@
 using MaksymKostyshyn.MindTrack.Application.UseCases.Users;
-using MaksymKostyshyn.MindTrack.Domain;
 using MaksymKostyshyn.MindTrack.WebSvc.Mappers;
-using MaksymKostyshyn.MindTrack.WebSvc.Models;
+using MaksymKostyshyn.MindTrack.WebSvc.Models.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MaksymKostyshyn.MindTrack.WebSvc.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
+[Route("api/[controller]")]
 public class UserController : ControllerBase
 {
     /// <summary>
@@ -18,7 +17,7 @@ public class UserController : ControllerBase
     /// <param name="cancellationToken"></param>
     /// <returns>The created user, or 400 if creation failed.</returns>
     [HttpPost]
-    [ProducesResponseType<User>(StatusCodes.Status201Created)]
+    [ProducesResponseType<UserResponse>(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateUserAsync(
         AddUserRequest request,
@@ -27,7 +26,7 @@ public class UserController : ControllerBase
     {
         var result = await useCase.HandleAsync(request.ToCommand(), cancellationToken);
 
-        return result is not null ? Created((string?)null!, result) : BadRequest();
+        return result is not null ? Created((string?)null!, result.ToResponse()) : BadRequest();
     }
 
     /// <summary>
@@ -38,7 +37,7 @@ public class UserController : ControllerBase
     /// <param name="cancellationToken"></param>
     /// <returns>The user, or 404 if no user exists with that id.</returns>
     [HttpGet("{id:guid}")]
-    [ProducesResponseType<User>(StatusCodes.Status200OK)]
+    [ProducesResponseType<UserResponse>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetUserByIdAsync(
         Guid id,
@@ -47,7 +46,7 @@ public class UserController : ControllerBase
     {
         var result = await useCase.HandleAsync(id, cancellationToken);
 
-        return result is not null ? Ok(result) : NotFound();
+        return result is not null ? Ok(result.ToResponse()) : NotFound();
     }
 
     /// <summary>

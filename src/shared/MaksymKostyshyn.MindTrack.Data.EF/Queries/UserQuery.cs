@@ -1,4 +1,6 @@
 ﻿using MaksymKostyshyn.MindTrack.Data.Abstractions.Queries;
+using MaksymKostyshyn.MindTrack.Data.EF.Mappers;
+using MaksymKostyshyn.MindTrack.Domain;
 using MaksymKostyshyn.MindTrack.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -9,6 +11,21 @@ public class UserQuery(MindTrackDbContext dbContext, ILogger<UserQuery> logger) 
 {
     private readonly MindTrackDbContext _dbContext = dbContext;
     private readonly ILogger<UserQuery> _logger = logger;
+
+    public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var user = await _dbContext.User.Where(user => user.Email.Equals(email)).FirstOrDefaultAsync(cancellationToken);
+
+            return user?.ToDomain();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to find user by email: {Email}", email);
+            return null;
+        }
+    }
 
     public async Task<IList<UserSummary>?> GetPatientsFromTherapistAsync(Guid therapistId, int page, int pageSize, CancellationToken cancellationToken)
     {
