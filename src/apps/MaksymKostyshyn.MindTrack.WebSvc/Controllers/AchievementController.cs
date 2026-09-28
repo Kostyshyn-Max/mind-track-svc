@@ -2,12 +2,14 @@ using MaksymKostyshyn.MindTrack.Application.UseCases.Achievements;
 using MaksymKostyshyn.MindTrack.Domain;
 using MaksymKostyshyn.MindTrack.WebSvc.Mappers;
 using MaksymKostyshyn.MindTrack.WebSvc.Models.Achievement;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MaksymKostyshyn.MindTrack.WebSvc.Controllers;
 
-[Route("api/[controller]")]
+[Authorize]
 [ApiController]
+[Route("api/[controller]")]
 public class AchievementController : ControllerBase
 {
     /// <summary>

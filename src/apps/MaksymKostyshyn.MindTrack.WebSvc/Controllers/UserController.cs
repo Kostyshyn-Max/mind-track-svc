@@ -1,10 +1,14 @@
 using MaksymKostyshyn.MindTrack.Application.UseCases.Users;
+using MaksymKostyshyn.MindTrack.Auth.Authorization;
+using MaksymKostyshyn.MindTrack.Domain.Enums;
 using MaksymKostyshyn.MindTrack.WebSvc.Mappers;
 using MaksymKostyshyn.MindTrack.WebSvc.Models.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MaksymKostyshyn.MindTrack.WebSvc.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class UserController : ControllerBase
@@ -80,7 +84,10 @@ public class UserController : ControllerBase
     /// <param name="cancellationToken"></param>
     /// <returns>204 on success, or 404 if no user exists with that id.</returns>
     [HttpDelete("{id:guid}")]
+    [RequireRole(UserRole.Administrator)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteUserAsync(
         Guid id,
