@@ -37,6 +37,7 @@ public static class DependencyInjectionExtension
     {
         services.AddScoped<AddAchievementUseCase>();
         services.AddScoped<GetAchievementUseCase>();
+        services.AddScoped<GetAllAchievementsUseCase>();
         services.AddScoped<UpdateAchievementUseCase>();
         services.AddScoped<DeleteAchievementUseCase>();
 

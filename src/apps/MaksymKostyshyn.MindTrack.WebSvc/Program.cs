@@ -2,6 +2,7 @@ using MaksymKostyshyn.MindTrack.Application.Extensions;
 using MaksymKostyshyn.MindTrack.Auth.Extensions;
 using MaksymKostyshyn.MindTrack.Data.ADO.Extensions;
 using MaksymKostyshyn.MindTrack.Data.EF.Extensions;
+using MaksymKostyshyn.MindTrack.Data.Redis.Extensions;
 using MaksymKostyshyn.MindTrack.WebSvc.ExceptionHandling;
 using Microsoft.OpenApi;
 
@@ -9,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("MindTrack")
     ?? throw new InvalidOperationException("Connection string 'MindTrack' was not found. Configure it via user secrets.");
+
+var redisConnectionString = builder.Configuration.GetConnectionString("Redis")
+    ?? throw new InvalidOperationException("Connection string 'Redis' was not found.");
 
 builder.Services.AddControllers(); 
 builder.Services.AddHttpClient();
@@ -46,6 +50,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddMindTrackEntityFrameworkDataAccess(connectionString);
 builder.Services.AddMindTrackAdoDataAccess(connectionString);
+builder.Services.AddMindTrackRedisCache(redisConnectionString);
 builder.Services.AddMindTrackApplication();
 builder.Services.AddMindTrackAuth(builder.Configuration);
 
