@@ -33,6 +33,27 @@ public class AchievementController : ControllerBase
     }
 
     /// <summary>
+    /// Retrieves all achievements.
+    /// </summary>
+    /// <param name="page">The page number to retrieve (1-based).</param>
+    /// <param name="pageSize">The number of achievements per page.</param>
+    /// <param name="useCase">Fetches the achievements.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>The requested page of achievements.</returns>
+    [HttpGet]
+    [ProducesResponseType<IList<Achievement>>(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAllAchievementsAsync(
+        [FromServices] GetAllAchievementsUseCase useCase,
+        CancellationToken cancellationToken,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10)
+    {
+        var result = await useCase.HandleAsync(page, pageSize, cancellationToken);
+
+        return Ok(result);
+    }
+
+    /// <summary>
     /// Retrieves an achievement by its id.
     /// </summary>
     /// <param name="id">The achievement's id.</param>

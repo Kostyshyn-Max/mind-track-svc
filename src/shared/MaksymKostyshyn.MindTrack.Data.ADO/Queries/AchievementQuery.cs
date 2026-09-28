@@ -73,4 +73,48 @@ public class AchievementQuery(IDbConnectionFactory dbConnectionFactory, ILogger<
             return null;
         }
     }
+
+    public async Task<IList<Achievement>?> GetAllAchievementsAsync(int page, int pageSize, CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (pageSize <= 0)
+            {
+                return [];
+            }
+
+            var offset = (Math.Max(page, 1) - 1) * pageSize;
+
+            await using var connection = _dbConnectionFactory.CreateConnection();
+            await connection.OpenAsync(cancellationToken);
+
+            await using var command = connection.CreateCommand();
+            command.CommandText = @"
+                SELECT Id, Name, Description, PointsReward
+                FROM Achievement
+                ORDER BY Name
+                OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+            command.Parameters.AddWithValue("@Offset", offset);
+            command.Parameters.AddWithValue("@PageSize", pageSize);
+
+            var achievements = new List<Achievement>();
+
+            await using var reader = await command.ExecuteReaderAsync(cancellationToken);
+            while (await reader.ReadAsync(cancellationToken))
+            {
+                achievements.Add(new Achievement(
+                    reader.GetGuid(reader.GetOrdinal("Id")),
+                    reader.GetString(reader.GetOrdinal("Name")),
+                    reader.GetString(reader.GetOrdinal("Description")),
+                    reader.GetInt32(reader.GetOrdinal("PointsReward"))));
+            }
+
+            return achievements;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to retrieve achievements for page {Page} with page size {PageSize}.", page, pageSize);
+            return null;
+        }
+    }
 }

@@ -97,6 +97,22 @@ paths:
           description: No user exists with that id.
 
   /api/Achievement:
+    get:
+      tags: [Achievement]
+      summary: Retrieves all achievements.
+      operationId: GetAllAchievements
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: The requested page of achievements.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Achievement'
     post:
       tags: [Achievement]
       summary: Creates a new achievement.
@@ -190,6 +206,22 @@ components:
       schema:
         type: string
         format: uuid
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number to retrieve (1-based).
+      schema:
+        type: integer
+        default: 1
+    PageSize:
+      name: pageSize
+      in: query
+      required: false
+      description: The number of items per page.
+      schema:
+        type: integer
+        default: 10
 
   schemas:
     UserRole:
