@@ -1,5 +1,8 @@
 using MaksymKostyshyn.MindTrack.Application.UseCases.Achievements;
 using MaksymKostyshyn.MindTrack.Domain;
+using MaksymKostyshyn.MindTrack.Domain.Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using MaksymKostyshyn.MindTrack.WebSvc.Mappers;
 using MaksymKostyshyn.MindTrack.WebSvc.Models.Achievement;
 using Microsoft.AspNetCore.Authorization;
@@ -12,6 +15,12 @@ namespace MaksymKostyshyn.MindTrack.WebSvc.Controllers;
 [Route("api/[controller]")]
 public class AchievementController : ControllerBase
 {
+    private bool TryGetUserId(out Guid userId)
+    {
+        var claim = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+        return Guid.TryParse(claim, out userId);
+    }
+
     /// <summary>
     /// Creates a new achievement.
     /// </summary>
@@ -33,22 +42,60 @@ public class AchievementController : ControllerBase
     }
 
     /// <summary>
-    /// Retrieves all achievements.
+    /// Retrieves a page of achievements.
     /// </summary>
     /// <param name="page">The page number to retrieve (1-based).</param>
     /// <param name="pageSize">The number of achievements per page.</param>
+    /// <param name="excludeUnlocked">When true, achievements the signed-in user has already unlocked are left out and not counted.</param>
     /// <param name="useCase">Fetches the achievements.</param>
     /// <param name="cancellationToken"></param>
-    /// <returns>The requested page of achievements.</returns>
+    /// <returns>The requested page of achievements with the total number of matching achievements, or 401 if the token has no user id.</returns>
     [HttpGet]
-    [ProducesResponseType<IList<Achievement>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<PagedResult<Achievement>>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> GetAllAchievementsAsync(
         [FromServices] GetAllAchievementsUseCase useCase,
         CancellationToken cancellationToken,
         [FromQuery] int page = 1,
-        [FromQuery] int pageSize = 10)
+        [FromQuery] int pageSize = 10,
+        [FromQuery] bool excludeUnlocked = false)
     {
-        var result = await useCase.HandleAsync(page, pageSize, cancellationToken);
+        Guid? excludeForUserId = null;
+
+        if (excludeUnlocked)
+        {
+            if (!TryGetUserId(out var userId))
+            {
+                return Unauthorized();
+            }
+
+            excludeForUserId = userId;
+        }
+
+        var result = await useCase.HandleAsync(page, pageSize, excludeForUserId, cancellationToken);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Retrieves the achievements the signed-in user has unlocked, newest first.
+    /// </summary>
+    /// <param name="useCase">Fetches the unlocked achievements.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>The unlocked achievements with their unlock dates (empty when none), or 401 if the token has no user id.</returns>
+    [HttpGet("unlocked")]
+    [ProducesResponseType<IList<UnlockedAchievement>>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> GetUnlockedAchievementsAsync(
+        [FromServices] GetUnlockedAchievementsUseCase useCase,
+        CancellationToken cancellationToken)
+    {
+        if (!TryGetUserId(out var userId))
+        {
+            return Unauthorized();
+        }
+
+        var result = await useCase.HandleAsync(userId, cancellationToken);
 
         return Ok(result);
     }

@@ -17,17 +17,23 @@ public class AchievementQueryCacheDecorator(IAchievementQuery innerQuery, ICache
         return _innerQuery.GetUnlockedAchievementsForUserAsync(userId, fromDate, toDate, cancellationToken);
     }
 
-    public async Task<IList<Achievement>?> GetAllAchievementsAsync(int page, int pageSize, CancellationToken cancellationToken)
+    public async Task<PagedResult<Achievement>?> GetAllAchievementsAsync(int page, int pageSize, Guid? excludeUnlockedForUserId, CancellationToken cancellationToken)
     {
-        var cacheKey = $"achievements:page:{page}:pageSize:{pageSize}";
+        // Per-user results change as soon as the user unlocks something, so only the shared catalogue is cached.
+        if (excludeUnlockedForUserId is not null)
+        {
+            return await _innerQuery.GetAllAchievementsAsync(page, pageSize, excludeUnlockedForUserId, cancellationToken);
+        }
 
-        var cached = await _cacheService.GetAsync<IList<Achievement>>(cacheKey, cancellationToken);
+        var cacheKey = $"achievements:v2:page:{page}:pageSize:{pageSize}";
+
+        var cached = await _cacheService.GetAsync<PagedResult<Achievement>>(cacheKey, cancellationToken);
         if (cached is not null)
         {
             return cached;
         }
 
-        var result = await _innerQuery.GetAllAchievementsAsync(page, pageSize, cancellationToken);
+        var result = await _innerQuery.GetAllAchievementsAsync(page, pageSize, null, cancellationToken);
 
         if (result is not null)
         {

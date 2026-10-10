@@ -58,11 +58,12 @@ public class AchievementQuery(IDbConnectionFactory dbConnectionFactory, ILogger<
                     UserFullName = reader.GetString(reader.GetOrdinal("FullName"))
                 };
 
-                result.UnlockedAchievements.Add(new Achievement(
+                result.UnlockedAchievements.Add(new UnlockedAchievement(
                     reader.GetGuid(reader.GetOrdinal("AchievementId")),
                     reader.GetString(reader.GetOrdinal("AchievementName")),
                     reader.GetString(reader.GetOrdinal("AchievementDescription")),
-                    reader.GetInt32(reader.GetOrdinal("PointsReward"))));
+                    reader.GetInt32(reader.GetOrdinal("PointsReward")),
+                    DateTime.SpecifyKind(reader.GetDateTime(reader.GetOrdinal("UnlockedAt")), DateTimeKind.Utc)));
             }
 
             return result;
@@ -74,13 +75,13 @@ public class AchievementQuery(IDbConnectionFactory dbConnectionFactory, ILogger<
         }
     }
 
-    public async Task<IList<Achievement>?> GetAllAchievementsAsync(int page, int pageSize, CancellationToken cancellationToken)
+    public async Task<PagedResult<Achievement>?> GetAllAchievementsAsync(int page, int pageSize, Guid? excludeUnlockedForUserId, CancellationToken cancellationToken)
     {
         try
         {
             if (pageSize <= 0)
             {
-                return [];
+                return new PagedResult<Achievement>([], 0);
             }
 
             var offset = (Math.Max(page, 1) - 1) * pageSize;
@@ -90,16 +91,32 @@ public class AchievementQuery(IDbConnectionFactory dbConnectionFactory, ILogger<
 
             await using var command = connection.CreateCommand();
             command.CommandText = @"
-                SELECT Id, Name, Description, PointsReward
-                FROM Achievement
-                ORDER BY Name
-                OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+                SELECT COUNT(*)
+                FROM Achievement a
+                WHERE @ExcludeUserId IS NULL
+                   OR NOT EXISTS (SELECT 1 FROM UserAchievement ua WHERE ua.AchievementId = a.Id AND ua.PatientId = @ExcludeUserId);
+
+                SELECT a.Id, a.Name, a.Description, a.PointsReward
+                FROM Achievement a
+                WHERE @ExcludeUserId IS NULL
+                   OR NOT EXISTS (SELECT 1 FROM UserAchievement ua WHERE ua.AchievementId = a.Id AND ua.PatientId = @ExcludeUserId)
+                ORDER BY a.Name
+                OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;";
+            command.Parameters.Add(new SqlParameter("@ExcludeUserId", SqlDbType.UniqueIdentifier)
+            {
+                Value = (object?)excludeUnlockedForUserId ?? DBNull.Value
+            });
             command.Parameters.AddWithValue("@Offset", offset);
             command.Parameters.AddWithValue("@PageSize", pageSize);
 
             var achievements = new List<Achievement>();
 
             await using var reader = await command.ExecuteReaderAsync(cancellationToken);
+
+            await reader.ReadAsync(cancellationToken);
+            var totalCount = reader.GetInt32(0);
+
+            await reader.NextResultAsync(cancellationToken);
             while (await reader.ReadAsync(cancellationToken))
             {
                 achievements.Add(new Achievement(
@@ -109,7 +126,7 @@ public class AchievementQuery(IDbConnectionFactory dbConnectionFactory, ILogger<
                     reader.GetInt32(reader.GetOrdinal("PointsReward"))));
             }
 
-            return achievements;
+            return new PagedResult<Achievement>(achievements, totalCount);
         }
         catch (Exception ex)
         {

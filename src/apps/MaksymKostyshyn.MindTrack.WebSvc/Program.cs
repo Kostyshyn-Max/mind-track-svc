@@ -17,6 +17,16 @@ var redisConnectionString = builder.Configuration.GetConnectionString("Redis")
 builder.Services.AddControllers(); 
 builder.Services.AddHttpClient();
 
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy => policy
+        .WithOrigins(allowedOrigins)
+        .AllowAnyHeader()
+        .AllowAnyMethod());
+});
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
@@ -82,6 +92,8 @@ if (app.Environment.IsDevelopment())
         c.OAuthScopes(["openid", "email", "profile"]);
     });
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 

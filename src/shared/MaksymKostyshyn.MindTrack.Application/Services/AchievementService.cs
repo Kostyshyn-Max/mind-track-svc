@@ -2,6 +2,7 @@ using MaksymKostyshyn.MindTrack.Application.Abstractions.Services;
 using MaksymKostyshyn.MindTrack.Data.Abstractions.Queries;
 using MaksymKostyshyn.MindTrack.Data.Abstractions.Repositories;
 using MaksymKostyshyn.MindTrack.Domain;
+using MaksymKostyshyn.MindTrack.Domain.Models;
 
 namespace MaksymKostyshyn.MindTrack.Application.Services;
 
@@ -24,10 +25,18 @@ public class AchievementService(IAchievementRepository achievementRepository, IA
         return result;
     }
 
-    public async Task<IList<Achievement>?> GetAllAchievementsAsync(int page, int pageSize, CancellationToken cancellationToken)
+    public async Task<PagedResult<Achievement>?> GetAllAchievementsAsync(int page, int pageSize, Guid? excludeUnlockedForUserId, CancellationToken cancellationToken)
     {
-        var result = await _achievementQuery.GetAllAchievementsAsync(page, pageSize, cancellationToken);
+        var result = await _achievementQuery.GetAllAchievementsAsync(page, pageSize, excludeUnlockedForUserId, cancellationToken);
         return result;
+    }
+
+    public async Task<IList<UnlockedAchievement>> GetUnlockedAchievementsAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        var report = await _achievementQuery.GetUnlockedAchievementsForUserAsync(userId, null, null, cancellationToken);
+
+        // The query yields no report when the user has nothing unlocked.
+        return report?.UnlockedAchievements ?? [];
     }
 
     public async Task<bool> UpdateAchievementAsync(Guid id, string name, string description, int pointsReward, CancellationToken cancellationToken)
